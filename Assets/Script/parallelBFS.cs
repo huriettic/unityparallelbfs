@@ -55,6 +55,8 @@ public class parallelBFS : MonoBehaviour
         }
     }
 
+    public int rootNode = 0;
+
     public NativeList<NodeMeta> nodesNative;
     public NativeList<EdgeMeta> edgesNative;
 
@@ -105,7 +107,7 @@ public class parallelBFS : MonoBehaviour
         visited = new NativeParallelHashSet<int>(nodesNative.Length, Allocator.Persistent);
         result = new NativeList<int>(Allocator.Persistent);
 
-        RunBFS(nodesNative[0]);
+        RunBFS(nodesNative[rootNode]);
 
         foreach (var id in result)
         {
