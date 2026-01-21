@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootNode: 0
+  jobCompleted: 0
 --- !u!4 &447742582
 Transform:
   m_ObjectHideFlags: 0

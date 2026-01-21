@@ -57,6 +57,7 @@ public class parallelBFS : MonoBehaviour
 
     [Range(0, 5)]
     public int rootNode;
+    public int jobCompleted;
 
     public NativeList<NodeMeta> nodesNative;
     public NativeList<EdgeMeta> edgesNative;
@@ -113,7 +114,7 @@ public class parallelBFS : MonoBehaviour
         foreach (var id in result)
         {
             Debug.Log("Visited: " + id);
-        }  
+        }
     }
 
     void RunBFS(NodeMeta startNode)
@@ -123,7 +124,7 @@ public class parallelBFS : MonoBehaviour
         visited.Clear();
         result.Clear();
 
-        int jobCompleteCount = 0;
+        jobCompleted = 0;
 
         sideA.Add(startNode);
         visited.Add(startNode.nodeId);
@@ -148,9 +149,9 @@ public class parallelBFS : MonoBehaviour
 
             job.Schedule(current.Length, 32).Complete();
 
-            jobCompleteCount += 1;
+            jobCompleted += 1;
 
-            if (jobCompleteCount % 2 == 0)
+            if (jobCompleted % 2 == 0)
             {
                 current = sideA;
                 next = sideB;
