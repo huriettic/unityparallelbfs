@@ -6,14 +6,12 @@ using System;
 
 public class parallelBFS : MonoBehaviour
 {
-    [Serializable]
     public struct EdgeMeta
     {
         public int connectedNodeId;
         public int nodeId;
     }
 
-    [Serializable]
     public struct NodeMeta
     {
         public int edgeStartIndex;
