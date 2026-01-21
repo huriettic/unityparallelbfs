@@ -55,7 +55,8 @@ public class parallelBFS : MonoBehaviour
         }
     }
 
-    public int rootNode = 0;
+    [Range(0, 5)]
+    public int rootNode;
 
     public NativeList<NodeMeta> nodesNative;
     public NativeList<EdgeMeta> edgesNative;
