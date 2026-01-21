@@ -133,16 +133,6 @@ public class parallelBFS : MonoBehaviour
         {
             next.Clear();
 
-            if (next.Capacity < nodesNative.Length)
-            {
-                next.Capacity = nodesNative.Length;
-            }
-
-            if (result.Capacity < nodesNative.Length)
-            {
-                result.Capacity = nodesNative.Length;
-            }
-
             BFSNodesJob job = new BFSNodesJob
             {
                 nodes = nodesNative.AsArray(),
