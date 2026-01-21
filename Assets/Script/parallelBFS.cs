@@ -102,11 +102,11 @@ public class parallelBFS : MonoBehaviour
         nodesNative.Add(new NodeMeta { edgeStartIndex = 12, edgeCount = 2, nodeId = 4 });
         nodesNative.Add(new NodeMeta { edgeStartIndex = 14, edgeCount = 2, nodeId = 5 });
 
-        sideA = new NativeList<NodeMeta>(Allocator.Persistent);
-        sideB = new NativeList<NodeMeta>(Allocator.Persistent);
+        sideA = new NativeList<NodeMeta>(nodesNative.Length, Allocator.Persistent);
+        sideB = new NativeList<NodeMeta>(nodesNative.Length, Allocator.Persistent);
 
         visited = new NativeParallelHashSet<int>(nodesNative.Length, Allocator.Persistent);
-        result = new NativeList<int>(Allocator.Persistent);
+        result = new NativeList<int>(nodesNative.Length, Allocator.Persistent);
 
         RunBFS(nodesNative[rootNode]);
 
