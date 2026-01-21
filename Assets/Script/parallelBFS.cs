@@ -25,9 +25,9 @@ public class parallelBFS : MonoBehaviour
     [BurstCompile]
     public struct BFSNodesJob : IJobParallelFor
     {
-        [ReadOnly] public NativeArray<NodeMeta> nodes;
-        [ReadOnly] public NativeArray<EdgeMeta> edges;
-        [ReadOnly] public NativeArray<NodeMeta> currentNodes;
+        [ReadOnly] public NativeList<NodeMeta> nodes;
+        [ReadOnly] public NativeList<EdgeMeta> edges;
+        [ReadOnly] public NativeList<NodeMeta> currentNodes;
 
         public NativeList<NodeMeta>.ParallelWriter nextNodes;
         public NativeParallelHashSet<int>.ParallelWriter visited;
@@ -135,9 +135,9 @@ public class parallelBFS : MonoBehaviour
 
             BFSNodesJob job = new BFSNodesJob
             {
-                nodes = nodesNative.AsArray(),
-                edges = edgesNative.AsArray(),
-                currentNodes = current.AsArray(),
+                nodes = nodesNative,
+                edges = edgesNative,
+                currentNodes = current,
                 nextNodes = next.AsParallelWriter(),
                 visited = visited.AsParallelWriter(),
                 result = result.AsParallelWriter()
