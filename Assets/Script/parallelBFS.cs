@@ -9,8 +9,8 @@ public class parallelBFS : MonoBehaviour
     [Serializable]
     public struct EdgeMeta
     {
-        public int connectedNodeID;
-        public int sectorID;
+        public int connectedNodeId;
+        public int nodeId;
     }
 
     [Serializable]
@@ -19,7 +19,7 @@ public class parallelBFS : MonoBehaviour
         public int edgeStartIndex;
         public int edgeCount;
 
-        public int nodeID;
+        public int nodeId;
     }
 
     [BurstCompile]
@@ -40,17 +40,17 @@ public class parallelBFS : MonoBehaviour
             for (int i = node.edgeStartIndex; i < node.edgeStartIndex + node.edgeCount; i++)
             {
                 EdgeMeta edge = edges[i];
-                int nextID = edge.connectedNodeID;
+                int nextId = edge.connectedNodeId;
 
-                if (!visited.Add(nextID))
+                if (!visited.Add(nextId))
                 {
                     continue;
                 }
                     
-                NodeMeta nextNode = nodes[nextID];
+                NodeMeta nextNode = nodes[nextId];
 
                 nextNodes.AddNoResize(nextNode);
-                result.AddNoResize(nextID);
+                result.AddNoResize(nextId);
             }
         }
     }
@@ -68,36 +68,36 @@ public class parallelBFS : MonoBehaviour
     {
         edgesNative = new NativeList<EdgeMeta>(16, Allocator.Persistent);
 
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 1, sectorID = 0 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 3, sectorID = 0 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 4, sectorID = 0 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 1, nodeId = 0 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 3, nodeId = 0 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 4, nodeId = 0 });
 
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 0, sectorID = 1 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 2, sectorID = 1 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 5, sectorID = 1 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 0, nodeId = 1 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 2, nodeId = 1 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 5, nodeId = 1 });
 
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 1, sectorID = 2 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 3, sectorID = 2 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 4, sectorID = 2 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 1, nodeId = 2 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 3, nodeId = 2 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 4, nodeId = 2 });
 
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 0, sectorID = 3 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 2, sectorID = 3 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 5, sectorID = 3 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 0, nodeId = 3 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 2, nodeId = 3 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 5, nodeId = 3 });
 
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 0, sectorID = 4 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 2, sectorID = 4 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 0, nodeId = 4 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 2, nodeId = 4 });
 
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 1, sectorID = 5 });
-        edgesNative.Add(new EdgeMeta { connectedNodeID = 3, sectorID = 5 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 1, nodeId = 5 });
+        edgesNative.Add(new EdgeMeta { connectedNodeId = 3, nodeId = 5 });
 
         nodesNative = new NativeList<NodeMeta>(6, Allocator.Persistent);
 
-        nodesNative.Add(new NodeMeta { edgeStartIndex = 0, edgeCount = 3, nodeID = 0 });
-        nodesNative.Add(new NodeMeta { edgeStartIndex = 3, edgeCount = 3, nodeID = 1 });
-        nodesNative.Add(new NodeMeta { edgeStartIndex = 6, edgeCount = 3, nodeID = 2 });
-        nodesNative.Add(new NodeMeta { edgeStartIndex = 9, edgeCount = 3, nodeID = 3 });
-        nodesNative.Add(new NodeMeta { edgeStartIndex = 12, edgeCount = 2, nodeID = 4 });
-        nodesNative.Add(new NodeMeta { edgeStartIndex = 14, edgeCount = 2, nodeID = 5 });
+        nodesNative.Add(new NodeMeta { edgeStartIndex = 0, edgeCount = 3, nodeId = 0 });
+        nodesNative.Add(new NodeMeta { edgeStartIndex = 3, edgeCount = 3, nodeId = 1 });
+        nodesNative.Add(new NodeMeta { edgeStartIndex = 6, edgeCount = 3, nodeId = 2 });
+        nodesNative.Add(new NodeMeta { edgeStartIndex = 9, edgeCount = 3, nodeId = 3 });
+        nodesNative.Add(new NodeMeta { edgeStartIndex = 12, edgeCount = 2, nodeId = 4 });
+        nodesNative.Add(new NodeMeta { edgeStartIndex = 14, edgeCount = 2, nodeId = 5 });
 
         sideA = new NativeList<NodeMeta>(Allocator.Persistent);
         sideB = new NativeList<NodeMeta>(Allocator.Persistent);
@@ -123,8 +123,8 @@ public class parallelBFS : MonoBehaviour
         int jobCompleteCount = 0;
 
         sideA.Add(startNode);
-        visited.Add(startNode.nodeID);
-        result.Add(startNode.nodeID);
+        visited.Add(startNode.nodeId);
+        result.Add(startNode.nodeId);
 
         NativeList<NodeMeta> current = sideA;
         NativeList<NodeMeta> next = sideB;
